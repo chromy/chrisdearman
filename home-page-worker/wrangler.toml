@@ -1,0 +1,9 @@
+name = "chrisdearman-home-page"
+type = "javascript"
+account_id = "038a19b87455ca38af58645971aa32fc"
+route = "chrisdearman.xyz"
+zone_id = "9697975a19d3c8bc3205e8a666d71ae4"
+
+kv_namespaces = [
+  { binding = "TRAFFIC", id = "0eb2ab5f89d8461787516d6194aee12a" }
+]

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+OUT_DIR=out/site
+SHA=$(find $OUT_DIR -type f | xargs sha256sum | sort -k 2 | cut -d' ' -f1 | sha256sum | cut -d' ' -f1)
+gsutil cp -n -r out/site/ gs://chrisdearman.xyz/builds/$SHA
