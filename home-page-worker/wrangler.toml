@@ -1,8 +1,10 @@
-name = "home-page-worker"
-type = "webpack"
-route = 'chrisdearman.xyz'
-zone_id = ''
+name = "chrisdearman-xyz-home-page-worker"
+type = "javascript"
+zone_id = "59551d4d25eb0b71d903be74d1288bf9"
+routes = ["chrisdearman.xyz"]
 usage_model = ''
 compatibility_flags = []
-workers_dev = true
 compatibility_date = "2022-01-15"
+kv_namespaces = [
+  { binding = "TRAFFIC", id = "d38fec2e50cf438194b0c34bf4a3370c" }
+]
