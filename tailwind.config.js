@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     fontFamily: {
       "display": ["Advocate", "ui-sans-serif", "system-ui"],
-      "body": ["Equity Text A", "ui-sans-serif", "system-ui"],
+      "body": ["Equity", "ui-serif", "system-ui"],
     },
     extend: {},
   },

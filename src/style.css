@@ -3,6 +3,12 @@
   src: url("/assets/advocate_c45_regular-5ed0f40f2b1e2ac5dc8c1aa735b450fc5f68c568afced2fb0ae13ccc46a66d1d.woff") format("woff");
 }
 
+@font-face {
+  font-family: "Equity";
+  src: url("/assets/equity_text_a_regular-32ca0c5f762eb6f60f65ad54d54ba176a9572df5556250bacd27e26748e0e6d0.woff") format("woff");
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
