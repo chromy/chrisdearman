@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     fontFamily: {
       "display": ["Advocate C45", "Georgia", "ui-sans-serif", "system-ui"],
-      "name": ["Concourse T3", "Georgia", "ui-sans-serif", "system-ui"],
+      "name": ["Advocate C45", "Georgia", "ui-sans-serif", "system-ui"],
     },
     extend: {},
   },
