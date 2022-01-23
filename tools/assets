@@ -5,6 +5,7 @@ import sys
 import os
 import hashlib
 import subprocess
+from urllib.parse import quote
 
 URL = "https://storage.googleapis.com/chrisdearman.xyz/assets/"
 GS = "gs://chrisdearman.xyz/assets/"
@@ -36,7 +37,7 @@ def do_fetch(args):
         os.remove(file_path)
     if not os.path.isfile(file_path):
       download_path = file_path + ".tmp"
-      url = URL + file_name
+      url = URL + quote(file_name)
       download_url(url, download_path)
       actual_sha256 = sha256_file(download_path)
       if actual_sha256 != sha256:
@@ -48,18 +49,19 @@ def do_fetch(args):
 
 
 def do_add(args):
-  path = args.PATH
-  if not os.path.isfile(path):
-    print("No file found at {}".format(path))
-    return 1
-  sha256 = sha256_file(path)
-  name = os.path.basename(path)
-  stamp_name = name + ".sha256"
-  stamp_path = os.path.join(ASSETS_PATH, stamp_name)
-  gs_path = GS + name + "-" + sha256
-  subprocess.check_call(["gsutil", "cp", path, gs_path])
-  with open(stamp_path, "w") as f:
-    f.write(sha256)
+  paths = args.PATH
+  for path in paths:
+    if not os.path.isfile(path):
+      print("No file found at {}".format(path))
+      return 1
+    sha256 = sha256_file(path)
+    name = os.path.basename(path)
+    stamp_name = name + ".sha256"
+    stamp_path = os.path.join(ASSETS_PATH, stamp_name)
+    gs_path = GS + name + "-" + sha256
+    subprocess.check_call(["gsutil", "cp", path, gs_path])
+    with open(stamp_path, "w") as f:
+      f.write(sha256)
 
 
 def main():
@@ -67,7 +69,7 @@ def main():
   subparsers = parser.add_subparsers()
   add = subparsers.add_parser("add")
   add.set_defaults(func=do_add)
-  add.add_argument("PATH")
+  add.add_argument("PATH", nargs="+")
 
   fetch = subparsers.add_parser("fetch")
   fetch.set_defaults(func=do_fetch)
