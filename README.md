@@ -1,6 +1,7 @@
 # To build
 - `npm install`
 - `tools/assets fetch`
+- `serveit './tools/build' -s out/site/`
 
 # TODO
 - Favicon
