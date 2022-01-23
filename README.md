@@ -4,7 +4,6 @@
 - `serveit './tools/build' -s out/site/`
 
 # TODO
-- Favicon
 - CSS for photo gallery
 - Write obit
 - Write memory
