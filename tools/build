@@ -10,6 +10,7 @@ INDEX_TEMPLATE_PATH = os.path.join(ROOT, "src", "index.html")
 CSS_PATH = os.path.join(ROOT, "src", "style.css")
 JS_PATH = os.path.join(ROOT, "src", "script.js")
 OBIT_PATH = os.path.join(ROOT, "src", "obit.txt")
+FAVICON_PATH = os.path.join(ROOT, "src", "favicon-data-url.txt")
 OUTPUT_PATH = os.path.join(SITE, "index.html")
 ASSETS_PATH = os.path.join(SITE, "assets")
 
@@ -35,7 +36,9 @@ def main():
     js = f.read()
   with open(OBIT_PATH) as f:
     obit = f.read()
-  index_souce = template.format(css=css, js=js, obit=obit)
+  with open(FAVICON_PATH) as f:
+    favicon = f.read()
+  index_souce = template.format(css=css, js=js, obit=obit, favicon=favicon)
   with open(OUTPUT_PATH, "w") as f:
     f.write(index_souce)
 
