@@ -10,17 +10,10 @@ INDEX_TEMPLATE_PATH = os.path.join(ROOT, "src", "index.html")
 CSS_PATH = os.path.join(ROOT, "src", "style.css")
 JS_PATH = os.path.join(ROOT, "src", "script.js")
 OUTPUT_PATH = os.path.join(SITE, "index.html")
-ASSETS_PATH = os.path.join(SITE, "assets")
 
 def main():
   pathlib.Path(OUT).mkdir(parents=True, exist_ok=True)
   pathlib.Path(SITE).mkdir(parents=True, exist_ok=True)
-
-  try:
-    os.unlink(ASSETS_PATH)
-  except FileNotFoundError:
-    pass
-  os.symlink("../../assets", ASSETS_PATH)
 
   with open(INDEX_TEMPLATE_PATH) as f:
     template = f.read()
