@@ -1,3 +1,7 @@
+# To build
+- `npm install`
+- `tools/assets fetch`
+
 # TODO
 - Favicon
 - CSS for photo gallery
