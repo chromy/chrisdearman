@@ -7,6 +7,16 @@
 - Favicon
 - CSS for photo gallery
 - Write obit
+- Write memory
+- Add some other photos
+- Implement add memory thing
+-- Read memories from data files
+-- Add contact email
+-- Add mailing list
+
+- Integration flow should `tools/assets fetch`?
+- Record image sizes?
+- Fast images?
 
 # Notes
 
