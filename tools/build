@@ -20,13 +20,21 @@ ASSETS_PATH = os.path.join(SITE, "assets")
 MEMORY_HTML = '''
 <div class="flex pt-3">
   <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-    <img class="inline-block h-16 w-16 rounded-full" src="/assets/hector.png-5858c2ed1b700430e199cfa74c8531cacc0e3106f3541a5c88791368e39a1f81" alt="">
+  {avatar}
   </div>
   <div>
     <p class="mt-1">{text}</p>
     <h4 style="font-variant-caps: small-caps;">{contributor}</h4>
   </div>
 </div>
+'''
+
+AVATAR_PLACEHOLDER = '''
+<span class="inline-block h-16 w-16 rounded-full overflow-hidden bg-gray-100">
+  <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+</span>
 '''
 
 def main():
@@ -54,8 +62,24 @@ def main():
   with open(FAVICON_PATH) as f:
     favicon = f.read()
 
-  def memory_html(contributor, text):
-      return MEMORY_HTML.format(contributor=contributor, text=text)
+  def memory_html(obj):
+      try:
+        contributor = obj["contributor"]
+        text = obj["text"]
+      except KeyError:
+          return ""
+
+      try:
+        avatar_url = obj["avatar_url"]
+        avatar = f'<img class="inline-block h-16 w-16 rounded-full" src="{avatar_url}" alt="">'
+      except KeyError:
+        avatar = AVATAR_PLACEHOLDER
+
+      return MEMORY_HTML.format(
+        contributor=contributor,
+        text=text,
+        avatar=avatar,
+      )
 
   memories = ""
   for name in os.listdir(SRC_PATH):
@@ -63,11 +87,8 @@ def main():
       continue
     path = os.path.join(SRC_PATH, name)
     with open(path) as f:
-      j = json.load(f)
-      try:
-        memories = memories + memory_html(j["contributor"], j["text"])
-      except KeyError:
-          continue
+      obj = json.load(f)
+      memories = memories + memory_html(obj)
 
   index_souce = template.format(
     css=css,
