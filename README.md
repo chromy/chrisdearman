@@ -1,3 +1,8 @@
+# TODO
+- Favicon
+- CSS for photo gallery
+- Write obit
+
 # Notes
 
 ## Other one time setup things
