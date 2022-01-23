@@ -16,6 +16,10 @@ jobs:
       - name: Build
         run: |
           cd $GITHUB_WORKSPACE
+          npm install
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
           python3 tools/build
       - uses: actions/upload-artifact@v2
         with:
