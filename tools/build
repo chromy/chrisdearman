@@ -17,6 +17,18 @@ OBIT_PATH = os.path.join(SRC_PATH, "obit.txt")
 OUTPUT_PATH = os.path.join(SITE, "index.html")
 ASSETS_PATH = os.path.join(SITE, "assets")
 
+MEMORY_HTML = '''
+<div class="flex pt-3">
+  <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+    <img class="inline-block h-16 w-16 rounded-full" src="/assets/hector.png-5858c2ed1b700430e199cfa74c8531cacc0e3106f3541a5c88791368e39a1f81" alt="">
+  </div>
+  <div>
+    <p class="mt-1">{text}</p>
+    <h4 style="font-variant-caps: small-caps;">{contributor}</h4>
+  </div>
+</div>
+'''
+
 def main():
   pathlib.Path(OUT).mkdir(parents=True, exist_ok=True)
   pathlib.Path(SITE).mkdir(parents=True, exist_ok=True)
@@ -41,7 +53,9 @@ def main():
     obit = f.read()
   with open(FAVICON_PATH) as f:
     favicon = f.read()
-  index_souce = template.format(css=css, js=js, obit=obit, favicon=favicon)
+
+  def memory_html(contributor, text):
+      return MEMORY_HTML.format(contributor=contributor, text=text)
 
   memories = ""
   for name in os.listdir(SRC_PATH):
@@ -50,9 +64,18 @@ def main():
     path = os.path.join(SRC_PATH, name)
     with open(path) as f:
       j = json.load(f)
-    print(j)
+      try:
+        memories = memories + memory_html(j["contributor"], j["text"])
+      except KeyError:
+          continue
 
-  index_souce = template.format(css=css, js=js, obit=obit, memories=memories, favicon=favicon)
+  index_souce = template.format(
+    css=css,
+    js=js,
+    obit=obit,
+    memories=memories,
+    favicon=favicon,
+  )
   with open(OUTPUT_PATH, "w") as f:
     f.write(index_souce)
 
