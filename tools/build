@@ -9,6 +9,7 @@ SITE = os.path.join(OUT, "site")
 INDEX_TEMPLATE_PATH = os.path.join(ROOT, "src", "index.html")
 CSS_PATH = os.path.join(ROOT, "src", "style.css")
 JS_PATH = os.path.join(ROOT, "src", "script.js")
+OBIT_PATH = os.path.join(ROOT, "src", "obit.txt")
 OUTPUT_PATH = os.path.join(SITE, "index.html")
 
 def main():
@@ -25,7 +26,9 @@ def main():
   ]).decode("utf8")
   with open(JS_PATH) as f:
     js = f.read()
-  index_souce = template.format(css=css, js=js)
+  with open(OBIT_PATH) as f:
+    obit = f.read()
+  index_souce = template.format(css=css, js=js, obit=obit)
   with open(OUTPUT_PATH, "w") as f:
     f.write(index_souce)
 
