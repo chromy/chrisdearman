@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./**/*.html"],
+  content: ["./src/**/*", "./tools/**/*"],
   theme: {
     fontFamily: {
       "display": ["Advocate", "ui-sans-serif", "system-ui"],
