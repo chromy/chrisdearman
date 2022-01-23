@@ -10,10 +10,10 @@
 - Write memory
 - Add some other photos
 - Implement add memory thing
--- Read memories from data files
--- Add contact email
--- Add mailing list
-
+  - Read memories from data files
+  - Add contact email
+  - Add mailing list
+- Make text less black?
 - Integration flow should `tools/assets fetch`?
 - Record image sizes?
 - Fast images?

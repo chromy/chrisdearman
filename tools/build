@@ -2,15 +2,18 @@
 import os
 import subprocess
 import pathlib
+import json
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 OUT = os.path.join(ROOT, "out")
 SITE = os.path.join(OUT, "site")
-INDEX_TEMPLATE_PATH = os.path.join(ROOT, "src", "index.html")
-CSS_PATH = os.path.join(ROOT, "src", "style.css")
-JS_PATH = os.path.join(ROOT, "src", "script.js")
-OBIT_PATH = os.path.join(ROOT, "src", "obit.txt")
-FAVICON_PATH = os.path.join(ROOT, "src", "favicon-data-url.txt")
+SRC_PATH = os.path.join(ROOT, "src")
+INDEX_TEMPLATE_PATH = os.path.join(SRC_PATH, "index.html")
+CSS_PATH = os.path.join(SRC_PATH, "style.css")
+JS_PATH = os.path.join(SRC_PATH, "script.js")
+FAVICON_PATH = os.path.join(SRC_PATH, "favicon-data-url.txt")
+OBIT_PATH = os.path.join(SRC_PATH, "obit.txt")
+
 OUTPUT_PATH = os.path.join(SITE, "index.html")
 ASSETS_PATH = os.path.join(SITE, "assets")
 
@@ -39,6 +42,17 @@ def main():
   with open(FAVICON_PATH) as f:
     favicon = f.read()
   index_souce = template.format(css=css, js=js, obit=obit, favicon=favicon)
+
+  memories = ""
+  for name in os.listdir(SRC_PATH):
+    if not name.endswith(".json"):
+      continue
+    path = os.path.join(SRC_PATH, name)
+    with open(path) as f:
+      j = json.load(f)
+    print(j)
+
+  index_souce = template.format(css=css, js=js, obit=obit, memories=memories, favicon=favicon)
   with open(OUTPUT_PATH, "w") as f:
     f.write(index_souce)
 
