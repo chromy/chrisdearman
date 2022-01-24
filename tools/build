@@ -19,10 +19,10 @@ ASSETS_PATH = os.path.join(SITE, "assets")
 
 PHOTO_FILENAMES = (
     '1523555084138-6d802839-092c-4dbd-9145-7f0b48904a30.jpg-148e04467d086cb3032ce0b36566c8f4405914c88d5dd7048c16a0b394381f44',
-    'IMG_0049.jpg-85833f654bbfcab50e50fdecb47771ccb66cd7741c8f1a88766448c954613d6e',
+    #'IMG_0049.jpg-85833f654bbfcab50e50fdecb47771ccb66cd7741c8f1a88766448c954613d6e',
     'IMG_20150807_153349180_TOP.jpg-7356bf4cf78c63c635745eeddec4657575af068e2583f311517e8a8d6e03c1bd',
     'IMG_20151019_164919670_TOP.jpg-e01746dd875dd4c78026865c03bfd7f6fcd14b1ed426763b6ae1ca7354f9f611',
-    'IMG_20151229_082030.jpg-81d50dbfaf1e2c87234f56bf22a372c24248c02585a003d68743b5e0298b990a',
+    #'IMG_20151229_082030.jpg-81d50dbfaf1e2c87234f56bf22a372c24248c02585a003d68743b5e0298b990a',
     'IMG_20160819_155729.jpg-d09e41074d9186151d60bc13537ff3c733591f99182c0b8284fd50778671e8ca',
     'IMG_20160820_170759.jpg-06f90d76ac1459df6f4f57c98a1882a33b0ccd54af2a607be6d6b463aba1f3b7',
     'IMG_20180421_153621.jpg-b91244885a0a08430169d384a08bbcd2e790417a7dc412fc772091573dafde27',
@@ -30,7 +30,7 @@ PHOTO_FILENAMES = (
     'Masters_2012_09_18_20120918-124101_IMG_1307.jpg-4f43dff10b2968dc89fc28fd792da2bb44ce3f9713f555493d286467185c7aa3',
     'Masters_2012_09_18_20120918-124101_IMG_1341.jpg-8dd5209801899cff29745dcddfb8bc9d686dac92fab3d4653aee7dcc119e6657',
     'Masters_2013_08_06_20130806-165536_IMG_2172.jpg-f6c7c23b1073e0ccf823014d0952ed6ec0732290c2bd62eb157479827a58e0d7',
-    'Scan 0.jpg-bfb2a061260c6af41633e97bdf2628b53c5debb1959cbfc7362aaac58c5e9164',
+    #'Scan 0.jpg-bfb2a061260c6af41633e97bdf2628b53c5debb1959cbfc7362aaac58c5e9164',
     'Scan 1.jpg-80ece0681433fb4a914e575501263a5d24ea3b965e0155fa3e7e4b258e72ddd0',
     'Scan 10.jpg-be11a9c5e94b7445e82474ad58c90764f25e9adbea57e295c3a9154867f15088',
     'Scan 2.jpg-8fa5db12f4085a35d0189aceaf6d28d355cfbe192eb94e2d3c6df05ae92cb7ea',
@@ -109,7 +109,7 @@ def main():
       )
 
   def photo_html(filename):
-      return f'<img style="height: fit-content;" class="p-2 block sm:max-w-[50%]" src="/assets/{filename}" alt="">'
+      return f'<img style="height: fit-content;" class="p-2 block rounded-xl drop-shadow-lg sm:max-w-[50%]" src="/assets/{filename}" alt="">'
 
   memories = ""
   for name in os.listdir(SRC_PATH):
