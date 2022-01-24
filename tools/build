@@ -109,7 +109,7 @@ def main():
       )
 
   def photo_html(filename):
-      return f'<img class="p-2 block max-h-32 sm:max-h-64" src="/assets/{filename}" alt="">'
+      return f'<img style="height: fit-content;" class="p-2 block sm:max-w-[50%]" src="/assets/{filename}" alt="">'
 
   memories = ""
   for name in os.listdir(SRC_PATH):
