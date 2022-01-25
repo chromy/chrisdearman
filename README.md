@@ -41,3 +41,8 @@ $ wrangler kv:namespace create "TRAFFIC"
 - `CF_API_TOKEN` for Cloudflare Worker deploy, https://dash.cloudflare.com/profile/api-tokens
 - `GCP_PROJECT_ID` project name
 - `GCP_SA_KEY` see above
+
+# Adding photos
+- run `tools/assets add $FILENAME` (uploads to bucket)
+- run `tools/assets fetch` (fetches from bucket to local)
+- add filenames from `assets` dir to hardcoded list in `tools/build`
