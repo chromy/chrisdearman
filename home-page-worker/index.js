@@ -19,8 +19,11 @@ class ElementHandler {
 async function handleRequest(request) {
   const buildId = await TRAFFIC.get("build");
   const path = `chrisdearman.xyz/builds/${buildId}/`;
-  const r = await fetch(`https://${path}`);
-  return new HTMLRewriter().on("head", new ElementHandler(path)).transform(r);
+  const page = await fetch(`https://${path}`);
+  const rewriter = new HTMLRewriter().on("head", new ElementHandler(path));
+  const response = rewriter.transform(page);
+  response.headers.append("X-Clacks-Overhead", "GNU Chris Dearman");
+  return response;
 }
 
 addEventListener("fetch", event => {
