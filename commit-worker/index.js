@@ -42,6 +42,9 @@ async function createBranch(name, repository) {
       createRef(input: $input) {
         ref {
           name
+          target {
+            oid
+          }
         }
       }
     }
@@ -53,53 +56,59 @@ async function createBranch(name, repository) {
       "repositoryId": repository.repository_id,
     },
   };
-  const data = await github(query, variables);
-  return data;
+  const { data: { createRef: { ref } } } = await github(query, variables);
+  return {
+      branch_name: ref.name,
+      branch_node_id: ref.target.oid,
+  };
 }
 
-//async function createMessage(name) {
-//  const query = `
-//    mutation ($input: CreateCommitOnBranchInput!) {
-//      createCommitOnBranchInput {
-//        commit {
-//          url
-//        }
-//      }
-//    }
-//  `;
-//  const variables = {
-//    "input": {
-//      "branch": {
-//        "repositoryNameWithOwner": "chromy/chrisdearman",
-//        "branchName": "foo",
-//      },
-//      "message": {
-//        "headline": "Hello, world!",
-//      },
-//      "fileChanges": {
-//        "additions" [
-//          {
-//            "path": "src/a.txt",
-//            "contents": Buffer.from("new content here\n").toString("base64"),
-//          }
-//        ],
-//      },
-//    },
-//  };
-//  const r = await graphql(query, variables);
-//  const j = await r.json();
-//}
+async function createMessage(branch, fileName, fileContents) {
+  const query = `
+    mutation($input: CreateCommitOnBranchInput!) {
+      createCommitOnBranch(input: $input) {
+        commit {
+          message
+          oid
+          url
+        }
+      }
+    }
+  `;
+  const variables = {
+    "input": {
+      "branch": {
+        "repositoryNameWithOwner": "chromy/chrisdearman",
+        "branchName": branch.branch_name,
+      },
+      "expectedHeadOid": branch.branch_node_id,
+      "fileChanges": {
+        "additions": [
+          {
+            "path": fileName,
+            "contents": Buffer.from(fileContents).toString("base64"),
+          },
+        ],
+      },
+      "message": {
+        "headline": `Add ${fileName}`,
+      },
+    },
+  };
+  return await github(query, variables);
+}
 
 async function handleRequest(request) {
+  const branchName = 'branch-for-me';
+  const fileName = 'src/b.txt';
+  const fileContents = 'some message\n';
+
   const repository = await fetchRepo();
-  console.log('BEFORE HANDLE', JSON.stringify(repository));
-  const newBranch = await createBranch('test_new_branch', repository);
-  console.log('AFTER HANDLE', JSON.stringify(newBranch));
-  return new Response(repository);
+  const newBranch = await createBranch(branchName, repository);
+  const commit = await createMessage(newBranch, fileName, fileContents);
+  return new Response(JSON.stringify(commit));
 }
 
 addEventListener("fetch", event => {
   event.respondWith(handleRequest(event.request));
 });
-
-
