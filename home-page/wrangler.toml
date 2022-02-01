@@ -1,4 +1,4 @@
-name = "chrisdearman-xyz-home-page-worker"
+name = "home-page"
 type = "javascript"
 zone_id = "59551d4d25eb0b71d903be74d1288bf9"
 routes = ["chrisdearman.xyz"]
