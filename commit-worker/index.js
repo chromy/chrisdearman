@@ -1,10 +1,13 @@
+const GITHUB_USER = "chromy";
+const GITHUB_REPO = "chrisdearman";
+
 async function github(query, variables) {
   const r = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",
-      "User-Agent": "chromy",
+      "User-Agent": GITHUB_USER,
       "Authorization": `bearer ${GITHUB_ACCESS_TOKEN}`,
     },
     body: JSON.stringify({
@@ -19,7 +22,7 @@ async function github(query, variables) {
 async function fetchRepo() {
   const query = `
     query {
-      repository(owner: "chromy", name: "chrisdearman") {
+      repository(owner: "${GITHUB_USER}", name: "${GITHUB_REPO}") {
         id
         defaultBranchRef {
           target {
@@ -29,16 +32,16 @@ async function fetchRepo() {
       }
     }
   `;
-  const { data: { repository } } = (await github(query, {}));
+  const { data: { repository } } = await github(query, {});
   return {
-      repository_id: repository.id,
-      main_branch_node_id: repository.defaultBranchRef.target.oid,
+      repositoryId: repository.id,
+      mainBranchNodeId: repository.defaultBranchRef.target.oid,
   };
 }
 
 async function createBranch(name, repository) {
   const query = `
-    mutation($input:CreateRefInput!) {
+    mutation($input: CreateRefInput!) {
       createRef(input: $input) {
         ref {
           name
@@ -52,14 +55,14 @@ async function createBranch(name, repository) {
   const variables = {
     "input": {
       "name": `refs/heads/${name}`,
-      "oid": repository.main_branch_node_id,
-      "repositoryId": repository.repository_id,
+      "oid": repository.mainBranchNodeId,
+      "repositoryId": repository.repositoryId,
     },
   };
   const { data: { createRef: { ref } } } = await github(query, variables);
   return {
-      branch_name: ref.name,
-      branch_node_id: ref.target.oid,
+      branchName: ref.name,
+      branchNodeId: ref.target.oid,
   };
 }
 
@@ -78,10 +81,10 @@ async function createMessage(branch, fileName, fileContents) {
   const variables = {
     "input": {
       "branch": {
-        "repositoryNameWithOwner": "chromy/chrisdearman",
-        "branchName": branch.branch_name,
+        "repositoryNameWithOwner": `${GITHUB_USER}/${GITHUB_REPO}`,
+        "branchName": branch.branchName,
       },
-      "expectedHeadOid": branch.branch_node_id,
+      "expectedHeadOid": branch.branchNodeId,
       "fileChanges": {
         "additions": [
           {
@@ -91,22 +94,79 @@ async function createMessage(branch, fileName, fileContents) {
         ],
       },
       "message": {
-        "headline": `Add ${fileName}`,
+        "headline": `Add message ${fileName}`,
       },
     },
   };
   return await github(query, variables);
 }
 
-async function handleRequest(request) {
-  const branchName = 'branch-for-me';
-  const fileName = 'src/b.txt';
-  const fileContents = 'some message\n';
+async function createPullRequest(branchName, repositoryId) {
+  const query = `
+    mutation($input: CreatePullRequestInput!) {
+      createPullRequest(input: $input) {
+        pullRequest {
+          url
+        }
+      }
+    }
+  `;
+  const variables = {
+    "input": {
+      repositoryId,
+      "baseRefName": "main",
+      "headRefName": branchName,
+      "title": `Land ${branchName}`,
+      "body": "",
+      "draft": false,
+      "maintainerCanModify": true,
+    },
+  };
+  return await github(query, variables);
+}
 
+
+function timestamp() {
+  const datetime = new Date();
+  const iso = datetime.toISOString();
+  return iso.slice(0, 19).replaceAll(":", "-").replaceAll("T", "-")
+}
+
+async function handleRequest(request) {
+  const { headers, method } = request;
+  const contentType = headers.get("content-type") || "";
+
+  if (method !== "POST") {
+    return new Response(JSON.stringify({
+      "error": "Expected POST method",
+    }));
+  }
+
+  if (!contentType.includes("form")) {
+    return new Response(JSON.stringify({
+      "error": "Expected contentType is form",
+    }));
+  }
+
+  const formData = await request.formData()
+  const form = {}
+  for (const [k, v] of formData.entries()) {
+    form[k] = v;
+  }
+  console.log(form);
+
+  const branchName = timestamp();
+  const fileName = `src/${branchName}.json`;
+  const fileContents = 'some message\n';
   const repository = await fetchRepo();
   const newBranch = await createBranch(branchName, repository);
   const commit = await createMessage(newBranch, fileName, fileContents);
-  return new Response(JSON.stringify(commit));
+  const pr = await createPullRequest(branchName, repository.repositoryId);
+  return new Response(JSON.stringify({
+    form,
+    commit,
+    pr,
+  }));
 }
 
 addEventListener("fetch", event => {
