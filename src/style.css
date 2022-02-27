@@ -8,7 +8,6 @@
   src: url("/assets/equity_text_a_regular.woff-32ca0c5f762eb6f60f65ad54d54ba176a9572df5556250bacd27e26748e0e6d0") format("woff");
 }
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

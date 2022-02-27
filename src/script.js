@@ -1,3 +1,5 @@
+import PhotoSwipeLightbox from 'photoswipe/dist/photoswipe-lightbox.esm.js';
+import PhotoSwipe from 'photoswipe/dist/photoswipe.esm.js';
 
 const addMemoryButton = document.getElementById('add-memory');
 const hideSlideOutButton = document.getElementById('hide-slide-out')
@@ -17,3 +19,9 @@ addMemoryButton.onclick = open;
 hideSlideOutButton.onclick = close;
 cancelSlideOutButton.onclick = close;
 
+const lightbox = new PhotoSwipeLightbox({
+  gallery: '#gallery--simple',
+  children: 'a',
+  pswpModule: PhotoSwipe
+});
+lightbox.init();

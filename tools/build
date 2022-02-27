@@ -3,16 +3,19 @@ import os
 import subprocess
 import pathlib
 import json
+import base64
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 OUT = os.path.join(ROOT, "out")
 SITE = os.path.join(OUT, "site")
 SRC_PATH = os.path.join(ROOT, "src")
+NODE_MODULES = os.path.join(ROOT, "node_modules")
 INDEX_TEMPLATE_PATH = os.path.join(SRC_PATH, "index.html")
 CSS_PATH = os.path.join(SRC_PATH, "style.css")
 JS_PATH = os.path.join(SRC_PATH, "script.js")
 FAVICON_PATH = os.path.join(SRC_PATH, "favicon-data-url.txt")
 OBIT_PATH = os.path.join(SRC_PATH, "obit.txt")
+PHOTOSWIPE_CSS = os.path.join(NODE_MODULES, "photoswipe", "dist", "photoswipe.css")
 
 OUTPUT_PATH = os.path.join(SITE, "index.html")
 ASSETS_PATH = os.path.join(SITE, "assets")
@@ -69,6 +72,78 @@ AVATAR_PLACEHOLDER = '''
 </span>
 '''
 
+def read(path):
+  with open(path) as f:
+    return f.read()
+
+def get_css():
+  css = subprocess.check_output([
+    "npx",
+    "tailwindcss",
+    "-i",
+    CSS_PATH,
+  ]).decode("utf8")
+  photoswipe_css = read(PHOTOSWIPE_CSS)
+  return '\n'.join([css, photoswipe_css])
+
+def get_js():
+  js = subprocess.check_output([
+    "npx",
+    "esbuild",
+    "--bundle",
+    JS_PATH,
+  ]).decode("utf8")
+  return js
+
+def get_photos():
+  paths = [os.path.join(ASSETS_PATH, name) for name in PHOTO_FILENAMES]
+  sizes = subprocess.check_output([
+    "identify",
+    "-ping",
+    "-format", "%w\t%h\t%t.%e\n",
+  ] + paths).decode("utf8")
+
+  photos = []
+
+  photos_foo = []
+
+  for line in sizes.split("\n"):
+    if not line:
+      continue
+    width, height, name = line.split("\t")
+    href = f"/assets/{name}"
+
+    data = base64.b64encode(subprocess.check_output([
+      "convert",
+      os.path.join(ASSETS_PATH, name),
+      "-resize",
+      "100",
+      "-dither",
+      "FloydSteinberg",
+      "-remap",
+      "pattern:gray50",
+      "gif:fd:1",
+    ])).decode("utf8")
+
+    photos.append(f"""
+    <a href="{href}"
+      data-pswp-width="{width}"
+      data-pswp-height="{height}"
+      target="_blank">
+      <img src="data:image/gif;base64,{data}" alt=""/>
+    </a>""")
+
+#    <img
+#      style="height: fit-content;"
+#      class="p-2 block rounded-xl drop-shadow-lg sm:max-w-[50%]"
+#      width="{width}"
+#      height="{height}"
+#      src="/assets/{name}" alt="">
+#    """)
+
+  return """<div class="pswp-gallery pswp-gallery--single-column" id="gallery--simple">""" + "".join(photos) + "</div>"
+
+
 def main():
   pathlib.Path(OUT).mkdir(parents=True, exist_ok=True)
   pathlib.Path(SITE).mkdir(parents=True, exist_ok=True)
@@ -79,16 +154,13 @@ def main():
     pass
   os.symlink("../../assets", ASSETS_PATH)
 
+  css = get_css()
+  js = get_js()
+  photos = get_photos()
+
   with open(INDEX_TEMPLATE_PATH) as f:
     template = f.read()
-  css = subprocess.check_output([
-    "npx",
-    "tailwindcss",
-    "-i",
-    CSS_PATH,
-  ]).decode("utf8")
-  with open(JS_PATH) as f:
-    js = f.read()
+
   with open(OBIT_PATH) as f:
     obit = f.read()
   with open(FAVICON_PATH) as f:
@@ -113,9 +185,6 @@ def main():
         avatar=avatar,
       )
 
-  def photo_html(filename):
-      return f'<img style="height: fit-content;" class="p-2 block rounded-xl drop-shadow-lg sm:max-w-[50%]" src="/assets/{filename}" alt="">'
-
   memories = ""
   for name in os.listdir(SRC_PATH):
     if not name.endswith(".json"):
@@ -125,7 +194,6 @@ def main():
       obj = json.load(f)
       memories = memories + memory_html(obj)
 
-  photos = ''.join(photo_html(filename) for filename in PHOTO_FILENAMES)
 
   index_souce = template.format(
     css=css,
