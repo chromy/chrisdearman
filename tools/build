@@ -133,15 +133,7 @@ def get_photos():
       <img src="data:image/gif;base64,{data}" alt=""/>
     </a>""")
 
-#    <img
-#      style="height: fit-content;"
-#      class="p-2 block rounded-xl drop-shadow-lg sm:max-w-[50%]"
-#      width="{width}"
-#      height="{height}"
-#      src="/assets/{name}" alt="">
-#    """)
-
-  return """<div class="pswp-gallery pswp-gallery--single-column" id="gallery--simple">""" + "".join(photos) + "</div>"
+  return "".join(photos)
 
 
 def main():
