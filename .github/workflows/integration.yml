@@ -12,7 +12,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.7'
+          python-version: '3.9'
       - name: Install node packages
         run: |
           cd $GITHUB_WORKSPACE
