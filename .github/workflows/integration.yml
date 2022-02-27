@@ -17,6 +17,10 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           npm install
+      - name: Fetch assets
+        run: |
+          cd $GITHUB_WORKSPACE
+          python3 tools/assets fetch
       - name: Build
         run: |
           cd $GITHUB_WORKSPACE
