@@ -117,7 +117,7 @@ def get_photos():
       "convert",
       os.path.join(ASSETS_PATH, name),
       "-resize",
-      "100",
+      "120",
       "-dither",
       "FloydSteinberg",
       "-remap",
@@ -125,13 +125,7 @@ def get_photos():
       "gif:fd:1",
     ])).decode("utf8")
 
-    photos.append(f"""
-    <a href="{href}"
-      data-pswp-width="{width}"
-      data-pswp-height="{height}"
-      target="_blank">
-      <img src="data:image/gif;base64,{data}" alt=""/>
-    </a>""")
+    photos.append(f"""<div class="masonry-item"><a href="{href}" data-pswp-width="{width}" data-pswp-height="{height}" target="_blank"><img src="data:image/gif;base64,{data}" alt=""/></a></div>""".replace("\n", ""))
 
   return "".join(photos)
 

@@ -23,3 +23,21 @@ html {
   line-height: 0.65;
   margin: 0.1em 0.1em 0.2em 0;
 }
+
+@layer utilities {
+  .masonry {
+      column-gap: 0px;
+      column-width: unset;
+      column-count: 3;
+  }
+  .masonry-item img {
+    width: 100%;
+  }
+  .masonry-md {
+      column-count: unset;
+      column-width: 100px;
+  }
+  .masonry-item {
+      break-inside: avoid;
+  }
+}
