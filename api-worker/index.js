@@ -1,5 +1,6 @@
 const GITHUB_USER = "chromy";
 const GITHUB_REPO = "chrisdearman";
+const BUCKET_NAME = 'chrisdearman.xyz';
 
 async function github(query, variables) {
   const r = await fetch("https://api.github.com/graphql", {
@@ -132,7 +133,32 @@ function timestamp() {
   return iso.slice(0, 19).replaceAll(":", "-").replaceAll("T", "-")
 }
 
-async function handleRequest(request) {
+
+const fileName = 'foo';
+const {Storage} = require('@google-cloud/storage');
+const storage = new Storage();
+
+async function generateV4UploadSignedUrl() {
+  const options = {
+    version: 'v4',
+    action: 'write',
+    expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    contentType: 'application/octet-stream',
+  };
+
+  // Get a v4 signed URL for uploading file
+  const [url] = await storage
+    .bucket(BUCKET_NAME)
+    .file(fileName)
+    .getSignedUrl(options);
+
+  return new Response(JSON.stringify({
+    url,
+  }));
+}
+
+
+async function handleAddMemory(request) {
   const { headers, method } = request;
   const contentType = headers.get("content-type") || "";
 
@@ -167,6 +193,18 @@ async function handleRequest(request) {
     commit,
     pr,
   }));
+}
+
+async function handleRequest(request) {
+  const url = request.url;
+
+  if (url.endsWith("/api/memory")) {
+    return handleAddMemory(request);
+  }
+
+  if (url.endsWith("/api/upload")) {
+    return handleAquireUploadUrl(request);
+  }
 }
 
 addEventListener("fetch", event => {
