@@ -5,6 +5,6 @@ account_id = "038a19b87455ca38af58645971aa32fc"
 usage_model = ""
 compatibility_flags = []
 routes = [
-  "chrisdearman.xyz/api",
+  "chrisdearman.xyz/api/*",
 ]
 compatibility_date = "2022-01-25"

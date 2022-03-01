@@ -134,28 +134,27 @@ function timestamp() {
 }
 
 
-const fileName = 'foo';
-const {Storage} = require('@google-cloud/storage');
-const storage = new Storage();
-
-async function generateV4UploadSignedUrl() {
-  const options = {
-    version: 'v4',
-    action: 'write',
-    expires: Date.now() + 15 * 60 * 1000, // 15 minutes
-    contentType: 'application/octet-stream',
-  };
-
-  // Get a v4 signed URL for uploading file
-  const [url] = await storage
-    .bucket(BUCKET_NAME)
-    .file(fileName)
-    .getSignedUrl(options);
-
-  return new Response(JSON.stringify({
-    url,
-  }));
-}
+//const fileName = 'foo';
+//const {Storage} = require('@google-cloud/storage');
+//const storage = new Storage();
+//async function generateV4UploadSignedUrl() {
+//  const options = {
+//    version: 'v4',
+//    action: 'write',
+//    expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+//    contentType: 'application/octet-stream',
+//  };
+//
+//  // Get a v4 signed URL for uploading file
+//  const [url] = await storage
+//    .bucket(BUCKET_NAME)
+//    .file(fileName)
+//    .getSignedUrl(options);
+//
+//  return new Response(JSON.stringify({
+//    url,
+//  }));
+//}
 
 
 async function handleAddMemory(request) {
@@ -202,9 +201,9 @@ async function handleRequest(request) {
     return handleAddMemory(request);
   }
 
-  if (url.endsWith("/api/upload")) {
-    return handleAquireUploadUrl(request);
-  }
+  //if (url.endsWith("/api/upload")) {
+  //  return handleAquireUploadUrl(request);
+  //}
 }
 
 addEventListener("fetch", event => {
