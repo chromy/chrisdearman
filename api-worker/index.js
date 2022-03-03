@@ -157,7 +157,7 @@ function timestamp() {
 //}
 
 
-async function handleAddMemory(request) {
+async function handleAddMessage(request) {
   const { headers, method } = request;
   const contentType = headers.get("content-type") || "";
 
@@ -178,32 +178,22 @@ async function handleAddMemory(request) {
   for (const [k, v] of formData.entries()) {
     form[k] = v;
   }
-  console.log(form);
 
   const branchName = timestamp();
   const fileName = `src/${branchName}.json`;
-  const fileContents = 'some message\n';
+  const fileContents = JSON.stringify(form);
   const repository = await fetchRepo();
   const newBranch = await createBranch(branchName, repository);
   const commit = await createMessage(newBranch, fileName, fileContents);
   const pr = await createPullRequest(branchName, repository.repositoryId);
-  return new Response(JSON.stringify({
-    form,
-    commit,
-    pr,
-  }));
+  const pullRequestUrl = pr.data.createPullRequest.pullRequest.url;
+  const url = new URL("https://chrisdearman.xyz");
+  url.searchParams.append("flash", pullRequestUrl);
+  return Response.redirect(url.toString(), 301);
 }
 
 async function handleRequest(request) {
-  const url = request.url;
-
-  if (url.endsWith("/api/memory")) {
-    return handleAddMemory(request);
-  }
-
-  //if (url.endsWith("/api/upload")) {
-  //  return handleAquireUploadUrl(request);
-  //}
+  return handleAddMessage(request);
 }
 
 addEventListener("fetch", event => {

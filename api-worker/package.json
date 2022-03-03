@@ -1,5 +1,5 @@
 {
-  "name": "commit-worker",
+  "name": "api-worker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

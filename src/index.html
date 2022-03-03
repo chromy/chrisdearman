@@ -122,7 +122,7 @@
                 <div class="py-6 px-4 bg-zinc-900 sm:px-6">
                   <div class="flex items-center justify-between">
                     <h2 class="text-lg font-medium text-white" id="slide-over-title">
-                      Add message 
+                      Add message
                     </h2>
                     <div class="ml-3 h-7 flex items-center">
                       <button id="hide-slide-out" type="button" class="bg-zinc-900 rounded-sm text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
@@ -145,11 +145,11 @@
                     <div class="space-y-6 pt-6 pb-5">
 
                       <div>
-                        <label for="memory" class="block text-sm font-medium text-gray-900">
+                        <label for="message" class="block text-sm font-medium text-gray-900">
                           Message
                         </label>
                         <div class="mt-1">
-                          <textarea id="memory" name="memory" rows="4" class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-sm"></textarea>
+                          <textarea id="message" name="message" rows="4" class="block w-full shadow-sm sm:text-sm focus:ring-zinc-500 focus:border-zinc-500 border border-gray-300 rounded-sm"></textarea>
                         </div>
                       </div>
 
@@ -158,18 +158,17 @@
                           Name
                         </label>
                         <div class="mt-1">
-                          <input type="text" name="name" id="name" class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-sm">
+                          <input type="text" name="name" id="name" class="block w-full shadow-sm sm:text-sm focus:ring-zinc-500 focus:border-zinc-500 border-gray-300 rounded-sm">
                         </div>
                       </div>
 
-
-
+                      <input type="hidden" name="kind" class="hidden" value="message"/>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="flex-shrink-0 px-4 py-4 flex justify-end">
-                <button id="cancel-slide-out" type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-sm shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button id="cancel-slide-out" type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-sm shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500">
                   Cancel
                 </button>
                 <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-sm text-white bg-zinc-800 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900">
