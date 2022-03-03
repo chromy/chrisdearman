@@ -102,8 +102,8 @@ def get_photos(names):
 
 def memory_html(obj):
     try:
-      contributor = obj["contributor"]
-      text = obj["text"]
+      name = obj["name"]
+      message = obj["text"]
     except KeyError:
         return ""
 
@@ -114,8 +114,8 @@ def memory_html(obj):
       avatar = AVATAR_PLACEHOLDER
 
     return MEMORY_HTML.format(
-      contributor=contributor,
-      text=text,
+      name=name,
+      message=message,
       avatar=avatar,
     )
 
@@ -141,7 +141,7 @@ def main():
     path = os.path.join(SRC_PATH, name)
     with open(path) as f:
       obj = json.load(f)
-      if obj["kind"] == "memory":
+      if obj["kind"] == "message":
         memories = memories + memory_html(obj)
       elif obj["kind"] == "photos":
         photo_names.extend(obj["names"])
