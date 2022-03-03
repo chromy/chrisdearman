@@ -11,7 +11,7 @@
 </head>
 <body class="flex flex-col">
   <main class="flex-grow min-h-screen">
-    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:py-16 py-8 px-4 sm:px-6 lg:px-8">
       <div class="text-center">
         <h2 class="text-base font-display uppercase mb-5">In memoriam</h2>
         <p class="font-display text-4xl text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">Chris Dearman</p>
@@ -20,14 +20,16 @@
     </div>
 
      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-       <div class="max-w-3xl mx-auto pb-5">
+
+       <div class="w-2/3 max-w-xl mx-auto sm:mb-16 mb-8 flex justify-center">
+         <img class="h-full sm:w-2/3 rounded-full" src="/assets/portrait.jpeg-2574639a58e0e02d287247e97abcc78bd36388d28de65b33411a4392765a10ae" width="300px" height="300px" alt="">
+       </div>
+
+       <div class="max-w-3xl mx-auto pb-16">
          <div class="font-body sm:text-justify dropcap sm:columns-2 sm:gap-8">{obit}</div>
        </div>
 
-       <div class="max-w-xl mx-auto pb-5">
-         <img src="/assets/PescaderoPointBeach.jpeg-23cddf4138dbcc6a13a9e4b80fd394ad3f7fb3b25b4519ab4091df88df10da12" alt="">
-       </div>
-       <div class="container mx-auto">
+       <div class="container max-w-3xl mx-auto pb-5">
         <div class="masonry sm:masonry-sm md:masonry-md" id="gallery--simple">
         {photos}
         </div>
@@ -49,14 +51,14 @@
               <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
               </svg>
-              <span>Add memory</span>
+              <span>Add message</span>
             </button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:my-16 my-8">
       <div class="max-w-3xl mx-auto">
         <p class="text-center">Chris's family can be contacted at</p>
         <div class="text-center font-mono">hector.dearman@gmail.com</div>
@@ -117,13 +119,13 @@
           <div class="w-screen max-w-md">
             <form action="/api/memory" method="post" class="h-full divide-y divide-gray-201 flex flex-col bg-white shadow-xl">
               <div class="flex-1 h-0 overflow-y-auto">
-                <div class="py-6 px-4 bg-indigo-700 sm:px-6">
+                <div class="py-6 px-4 bg-zinc-900 sm:px-6">
                   <div class="flex items-center justify-between">
                     <h2 class="text-lg font-medium text-white" id="slide-over-title">
-                      Add memory
+                      Add message 
                     </h2>
                     <div class="ml-3 h-7 flex items-center">
-                      <button id="hide-slide-out" type="button" class="bg-indigo-700 rounded-sm text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+                      <button id="hide-slide-out" type="button" class="bg-zinc-900 rounded-sm text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Close panel</span>
                         <!-- Heroicon name: outline/x -->
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -133,8 +135,8 @@
                     </div>
                   </div>
                   <div class="mt-1">
-                    <p class="text-sm text-indigo-300">
-                      Get started by filling in the information below to create your new project.
+                    <p class="text-sm text-gray-500">
+                      Add a memory or message. Your message
                     </p>
                   </div>
                 </div>
@@ -144,7 +146,7 @@
 
                       <div>
                         <label for="memory" class="block text-sm font-medium text-gray-900">
-                          Memory
+                          Message
                         </label>
                         <div class="mt-1">
                           <textarea id="memory" name="memory" rows="4" class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-sm"></textarea>
@@ -170,7 +172,7 @@
                 <button id="cancel-slide-out" type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-sm shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Cancel
                 </button>
-                <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-sm text-white bg-zinc-800 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900">
                   Save
                 </button>
               </div>
