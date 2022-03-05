@@ -21,13 +21,13 @@ OUTPUT_PATH = os.path.join(SITE, "index.html")
 ASSETS_PATH = os.path.join(SITE, "assets")
 
 MEMORY_HTML = '''
-<div class="flex pt-3">
-  <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+<div class="flex sm:my-8 my-4">
+  <div class="mb-4 flex-shrink-0 sm:mb-0 mr-4 sm:mr-8">
   {avatar}
   </div>
   <div>
-    <p class="mt-1">{text}</p>
-    <h4 style="font-variant-caps: small-caps;">{contributor}</h4>
+    <p class="mt-1">{message}</p>
+    <h4 style="font-variant-caps: small-caps;">{name}</h4>
   </div>
 </div>
 '''
@@ -100,10 +100,17 @@ def get_photos(names):
 
   return "".join(photos)
 
+def initialize(name):
+  if " " in name:
+    a, b = name.split(" ", 2)
+    return a.uppercase()[0] + b.uppercase()[0]
+  raise KeyError
+
+
 def memory_html(obj):
     try:
       name = obj["name"]
-      message = obj["text"]
+      message = obj["message"]
     except KeyError:
         return ""
 
@@ -111,7 +118,15 @@ def memory_html(obj):
       avatar_url = obj["avatar_url"]
       avatar = f'<img class="inline-block h-16 w-16 rounded-full" src="{avatar_url}" alt="">'
     except KeyError:
-      avatar = AVATAR_PLACEHOLDER
+      try:
+        initials = initialize(name)
+        avatar =  f"""
+          <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
+            <span class="text-xs font-medium leading-none text-white">{initials}</span>
+          </span>
+        """
+      except:
+        avatar = AVATAR_PLACEHOLDER
 
     return MEMORY_HTML.format(
       name=name,

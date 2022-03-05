@@ -181,7 +181,7 @@ async function handleAddMessage(request) {
 
   const branchName = timestamp();
   const fileName = `src/${branchName}.json`;
-  const fileContents = JSON.stringify(form);
+  const fileContents = JSON.stringify(form, null, 2);
   const repository = await fetchRepo();
   const newBranch = await createBranch(branchName, repository);
   const commit = await createMessage(newBranch, fileName, fileContents);
