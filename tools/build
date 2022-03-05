@@ -103,7 +103,7 @@ def get_photos(names):
 def initialize(name):
   if " " in name:
     a, b = name.split(" ", 2)
-    return a.uppercase()[0] + b.uppercase()[0]
+    return a.upper()[0] + b.upper()[0]
   raise KeyError
 
 
@@ -121,7 +121,7 @@ def memory_html(obj):
       try:
         initials = initialize(name)
         avatar =  f"""
-          <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
+          <span class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gray-500">
             <span class="text-xs font-medium leading-none text-white">{initials}</span>
           </span>
         """
