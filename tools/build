@@ -122,7 +122,7 @@ def memory_html(obj):
         initials = initialize(name)
         avatar =  f"""
           <span class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gray-500">
-            <span class="text-xs font-medium leading-none text-white">{initials}</span>
+            <span class="text-xl font-medium leading-none text-white">{initials}</span>
           </span>
         """
       except:
