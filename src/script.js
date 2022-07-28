@@ -1,24 +1,6 @@
 import PhotoSwipeLightbox from 'photoswipe/dist/photoswipe-lightbox.esm.js';
 import PhotoSwipe from 'photoswipe/dist/photoswipe.esm.js';
 
-const addMemoryButton = document.getElementById('add-memory');
-const hideSlideOutButton = document.getElementById('hide-slide-out')
-const cancelSlideOutButton= document.getElementById('cancel-slide-out')
-const slideOutOverlay = document.getElementById('slide-out-overlay')
-
-function close() {
-  slideOutOverlay.classList.add("hidden");
-}
-
-function open() {
-  slideOutOverlay.classList.remove("hidden");
-}
-
-
-addMemoryButton.onclick = open;
-hideSlideOutButton.onclick = close;
-cancelSlideOutButton.onclick = close;
-
 const lightbox = new PhotoSwipeLightbox({
   gallery: '#gallery--simple',
   children: 'a',
