@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "esbuild": "^0.14.23",
-    "photoswipe": "github:dimsemenov/photoswipe#v5-beta",
+    "photoswipe": "^5.3.2",
     "postcss": "^8.4.5"
   }
 }
