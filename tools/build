@@ -68,11 +68,18 @@ def get_js():
 
 def get_photos(names):
   paths = [os.path.join(ASSETS_PATH, name) for name in names]
-  sizes = subprocess.check_output([
-    "identify",
-    "-auto-orient",
-    "-format", "%W\t%H\t%t.%e\n",
-  ] + paths).decode("utf8")
+
+
+  sizes = ""
+
+  count = 10
+  chunks = [paths[i:i+count] for i in range(0, len(paths), count)]
+  for chunk in chunks:
+    sizes += subprocess.check_output([
+      "identify",
+      "-auto-orient",
+      "-format", "%W\t%H\t%t.%e\n",
+    ] + chunk).decode("utf8")
 
   photos = []
 
