@@ -76,6 +76,7 @@ def get_photos(names):
   chunks = [paths[i:i+count] for i in range(0, len(paths), count)]
   for chunk in chunks:
     sizes += subprocess.check_output([
+      "magick",
       "identify",
       "-auto-orient",
       "-format", "%W\t%H\t%t.%e\n",
@@ -90,6 +91,7 @@ def get_photos(names):
     href = f"/assets/{name}"
 
     data = base64.b64encode(subprocess.check_output([
+      "magick",
       "convert",
       os.path.join(ASSETS_PATH, name),
       "-auto-orient",
