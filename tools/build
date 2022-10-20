@@ -70,13 +70,11 @@ def get_photos(names):
   paths = [os.path.join(ASSETS_PATH, name) for name in names]
   sizes = subprocess.check_output([
     "identify",
-    "-ping",
-    "-format", "%w\t%h\t%t.%e\n",
+    "-auto-orient",
+    "-format", "%W\t%H\t%t.%e\n",
   ] + paths).decode("utf8")
 
   photos = []
-
-  photos_foo = []
 
   for line in sizes.split("\n"):
     if not line:
@@ -87,6 +85,7 @@ def get_photos(names):
     data = base64.b64encode(subprocess.check_output([
       "convert",
       os.path.join(ASSETS_PATH, name),
+      "-auto-orient",
       "-resize",
       "120",
       "-dither",
@@ -96,6 +95,7 @@ def get_photos(names):
       "gif:fd:1",
     ])).decode("utf8")
 
+    # convert -resize 120 -dither FloydSteinberg -remap pattern:gray50 gif:fd:1
     photos.append(f"""<div class="masonry-item"><a href="{href}" data-pswp-width="{width}" data-pswp-height="{height}" target="_blank"><img src="data:image/gif;base64,{data}" alt=""/></a></div>""".replace("\n", ""))
 
   return "".join(photos)
