@@ -53,4 +53,4 @@ jobs:
           postCommands: |
             wrangler kv:key put --binding=TRAFFIC build $BUILD_SHA256
         env:
-          BUILD_SHA256: ${{ steps.hash.outputs.hash }
+          BUILD_SHA256: ${{ steps.hash.outputs.hash }}
