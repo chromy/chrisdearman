@@ -76,7 +76,6 @@ def get_js():
 def get_photos(names):
   paths = [os.path.join(ASSETS_PATH, name) for name in names]
 
-
   sizes = ""
 
   count = 10
@@ -111,7 +110,6 @@ def get_photos(names):
       "gif:fd:1",
     ])).decode("utf8")
 
-    # convert -resize 120 -dither FloydSteinberg -remap pattern:gray50 gif:fd:1
     photos.append(f"""<div class="masonry-item"><a href="{href}" data-pswp-width="{width}" data-pswp-height="{height}" target="_blank"><img src="data:image/gif;base64,{data}" alt=""/></a></div>""".replace("\n", ""))
 
   return "".join(photos)
