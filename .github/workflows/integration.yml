@@ -17,6 +17,7 @@ jobs:
         run: |
           mkdir -p $HOME/.local/bin
           wget https://imagemagick.org/archive/binaries/magick -o $HOME/.local/bin/magick
+          chmod u+x $HOME/.local/bin/magick
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install node packages
         run: |
